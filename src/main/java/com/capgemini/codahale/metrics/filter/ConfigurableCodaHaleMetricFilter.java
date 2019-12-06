@@ -1,26 +1,27 @@
 package com.capgemini.codahale.metrics.filter;
 
-import com.codahale.metrics.Metric;
-import com.codahale.metrics.MetricFilter;
-import com.netflix.config.DynamicPropertyFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.codahale.metrics.Metric;
+import com.codahale.metrics.MetricFilter;
+import com.netflix.config.DynamicPropertyFactory;
+
 /**
  * An implementation of a CodaHale @MetricFilter based upon an Archaius DynamicPropertyFactory.
- *
+ * <p>
  * To enable this filter, the property 'filter.graphite.metrics' must be set to TRUE.
- *
+ * <p>
  * If this is the case, metrics will be filtered unless METRIC_NAME = true is set in
  * the properties.
- *
- *      e.g.: HystrixCommand.IndiciaService.GetIndicia.countFailure = true
- *
+ * <p>
+ * e.g.: HystrixCommand.IndiciaService.GetIndicia.countFailure = true
+ * <p>
  * For detail on how the metric names are constructed, refer to the source of the
  * {@link com.netflix.hystrix.contrib.codahalemetricspublisher.HystrixCodaHaleMetricsPublisherCommand} and
  * {@link com.netflix.hystrix.contrib.codahalemetricspublisher.HystrixCodaHaleMetricsPublisherThreadPool} classes.
  *
- *  @author Simon Irving
+ * @author Simon Irving
  */
 public class ConfigurableCodaHaleMetricFilter implements MetricFilter {
 
@@ -29,15 +30,14 @@ public class ConfigurableCodaHaleMetricFilter implements MetricFilter {
     private DynamicPropertyFactory archaiusPropertyFactory;
 
 
-    public ConfigurableCodaHaleMetricFilter(DynamicPropertyFactory archaiusPropertyFactory)
-    {
+    public ConfigurableCodaHaleMetricFilter(DynamicPropertyFactory archaiusPropertyFactory) {
         this.archaiusPropertyFactory = archaiusPropertyFactory;
     }
 
     @Override
     public boolean matches(String s, Metric metric) {
 
-        if(!isGraphiteEnabled()) {
+        if (!isGraphiteEnabled()) {
             return false;
         } else if (!isFilterEnabled()) {
             return true;
@@ -45,7 +45,7 @@ public class ConfigurableCodaHaleMetricFilter implements MetricFilter {
 
         boolean matchesFilter = archaiusPropertyFactory.getBooleanProperty(s, false).get();
 
-        LOGGER.debug("Does metric [{}] match filter? [{}]",s,matchesFilter);
+        LOGGER.debug("Does metric [{}] match filter? [{}]", s, matchesFilter);
 
         return matchesFilter;
     }

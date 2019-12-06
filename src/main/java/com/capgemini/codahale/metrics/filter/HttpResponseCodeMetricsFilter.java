@@ -8,10 +8,9 @@ import com.codahale.metrics.servlet.AbstractInstrumentedFilter;
 /**
  * Customized version of {@link com.codahale.metrics.servlet.AbstractInstrumentedFilter} class which provides metrics
  * about the HTTP response codes.
- * 
- * @see http://metrics.codahale.com/manual/servlet/
  *
  * @author Ganga Aloori
+ * @see <a href=https://metrics.dropwizard.io/4.1.1/manual/servlet.html/>
  */
 public class HttpResponseCodeMetricsFilter extends AbstractInstrumentedFilter {
 
@@ -34,7 +33,7 @@ public class HttpResponseCodeMetricsFilter extends AbstractInstrumentedFilter {
     }
 
     private static Map<Integer, String> createMeterNamesByStatusCode() {
-        final Map<Integer, String> meterNamesByStatusCode = new HashMap<>(5);
+        final Map<Integer, String> meterNamesByStatusCode = new HashMap<>(10);
         meterNamesByStatusCode.put(OK, NAME_PREFIX + "ok");
         meterNamesByStatusCode.put(UNAUTHORIZED, NAME_PREFIX + "unauthorized");
         meterNamesByStatusCode.put(BAD_REQUEST, NAME_PREFIX + "badRequest");
